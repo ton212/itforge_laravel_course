@@ -19,3 +19,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
+Route::get('/profile', 'UserController@getProfile')
+    ->middleware('auth');
+
+Route::get('/profile/edit', 'UserController@getUpdateProfile')
+    ->middleware('auth');
+Route::patch('/profile/edit', 'UserController@updateprofile')
+    ->middleware('auth');
