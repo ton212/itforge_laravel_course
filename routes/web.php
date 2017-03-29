@@ -26,3 +26,6 @@ Route::get('/profile/edit', 'UserController@getUpdateProfile')
     ->middleware('auth');
 Route::patch('/profile/edit', 'UserController@updateprofile')
     ->middleware('auth');
+
+
+Route::resource('post', 'PostController');
