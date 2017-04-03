@@ -5,7 +5,10 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">กระทู้ทั้งหมด</div>
+                    <div class="panel-heading">
+                        <a class="pull-right btn btn-primary btn-xs @if(!auth()->check()) disabled @endif" href="{{ route('post.create') }}">ตั้งกระทู้</a>
+                        กระทู้ทั้งหมด
+                    </div>
 
                     <div class="panel-body">
                         <table class="table table-striped table-bordered">
