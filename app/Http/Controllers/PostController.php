@@ -9,7 +9,7 @@ class PostController extends Controller
 {
     function __construct()
     {
-        $this->middleware('auth')->only(['create', 'store']);
+        $this->middleware('auth')->only(['create', 'store', 'destroy']);
     }
 
     /**
@@ -70,8 +70,10 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
+        $post = auth()->user()->posts()->findOrFail($id);
+
         return view('post.edit', [
             'post' => $post
         ]);
@@ -84,8 +86,10 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
+        $post = auth()->user()->posts()->findOrFail($id);
+
         $post->body = $request->body;
         $post->save();
 
@@ -98,8 +102,16 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+        if (auth()->user()->id == 1) {
+            $post = Post::findOrFail($id);
+        } else {
+            $post = auth()->user()->posts()->findOrFail($id);
+        }
+
+        $post->delete();
+
+        return redirect(route('post.index'));
     }
 }

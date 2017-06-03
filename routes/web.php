@@ -19,13 +19,17 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/profile', 'UserController@getProfile')
-    ->middleware('auth');
 
-Route::get('/profile/edit', 'UserController@getUpdateProfile')
-    ->middleware('auth');
-Route::patch('/profile/edit', 'UserController@updateprofile')
-    ->middleware('auth');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/profile', 'UserController@getProfile');
+
+    Route::get('/profile/edit', 'UserController@getUpdateProfile');
+    Route::patch('/profile/edit', 'UserController@updateprofile');
+});
 
 
 Route::resource('post', 'PostController');
+Route::resource('post.comment', 'CommentController', [
+    'except' => ['index', 'create'],
+    'middleware' => 'auth'
+]);
